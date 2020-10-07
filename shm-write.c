@@ -4,6 +4,9 @@
 #include <fcntl.h>
 #include <sys/shm.h>
 #include <sys/stat.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 int main(){
     const int size = 4096;
@@ -14,7 +17,7 @@ int main(){
     int shm_fd;
     void *ptr;
 
-    shm_fd = shm_open(name, O_CREAT | O_RDRW, 0666);
+    shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
     ftruncate(shm_fd, size);
     ptr = mmap(0, size, PROT_WRITE, MAP_SHARED, shm_fd, 0);
 

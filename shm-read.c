@@ -4,6 +4,9 @@
 #include <fcntl.h>
 #include <sys/shm.h>
 #include <sys/stat.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 int main(){
     const int size = 4096;

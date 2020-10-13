@@ -21,18 +21,18 @@ int main(void){
         while(start!=NULL){
             space = strchr(start, ' ');
             if(space == NULL){
-                strcpy(args[argsSE], start);
+                strcpy(string_buf[argsSE], start);
                 ++argsSE;
                 start = NULL;
             } else {
-                strncpy(args[argsSE], start, space - start);
-                args[argsSE][space - start] = '\0';
+                strncpy(string_buf[argsSE], start, space - start);
+                string_buf[argsSE][space - start] = '\0';
                 ++argsSE;
                 start = space + 1;
             }
         }
         for(int i = 0; i < argsSE; ++i){
-            printf("%s\n", args[i]);
+            args[i] = string_buf[i];
         }
     }
     return 0;

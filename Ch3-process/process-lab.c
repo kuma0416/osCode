@@ -18,19 +18,21 @@ int main(void){
         length = strlen(string);
         char *start = string;
         char *space;
-        printf("%s", string);
         while(start!=NULL){
             space = strchr(start, ' ');
             if(space == NULL){
-                strcpy(string_buf[argsSE], start);
+                strcpy(args[argsSE], start);
                 ++argsSE;
                 start = NULL;
             } else {
-                strncpy(string_buf[argsSE], start, space - start);
-                string_buf[argsSE][space - start] = '\0';
+                strncpy(args[argsSE], start, space - start);
+                args[argsSE][space - start] = '\0';
                 ++argsSE;
                 start = space + 1;
             }
+        }
+        for(int i = 0; i < argsSE; ++i){
+            printf("%s\n", args[i]);
         }
     }
     return 0;

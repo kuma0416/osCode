@@ -27,14 +27,20 @@ int main(void){
         length = strlen(string);
         char *start = string;
         char *space;
+        int andPoint = 0;
         while(start!=NULL){
             space = strchr(start, ' ');
             if(space == NULL){
-                int lastLength = strlen(start) - 1;
-                strcpy(string_buf[argsSE], start);
-                string_buf[argsSE][lastLength] = '\0';
-                ++argsSE;
-                start = NULL;
+                if(strspn(start, "&")){
+                    andPoint = 1;
+                    start = NULL;
+                } else {
+                    int lastLength = strlen(start) - 1;
+                    strcpy(string_buf[argsSE], start);
+                    string_buf[argsSE][lastLength] = '\0';
+                    ++argsSE;
+                    start = NULL;
+                }
             } else {
                 strncpy(string_buf[argsSE], start, space - start);
                 string_buf[argsSE][space - start] = '\0';
@@ -54,12 +60,12 @@ int main(void){
             execvp(args[0], args);
             return 0;
         } else {
-            wait(NULL);
-            should_run = 1;
+            if(andPoint){
+                wait(NULL);
+            } else {
+                should_run = 1;
+            }
         }
-        //execvp(args[0], args);
-        //args[argsSE] = "NULL";
-        //execvp(args[0], args);
     }
     return 0;
 }

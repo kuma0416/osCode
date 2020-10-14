@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
 #define MAX_LINE 80
 
@@ -18,6 +20,10 @@ int main(void){
         int length, argsSE = 0;
         char string_buf[10][80];
         fgets(string, MAX_LINE, stdin);
+        if(strspn(string, "exit")){
+            should_run = 0;
+            return 0;
+        }
         length = strlen(string);
         char *start = string;
         char *space;
@@ -36,18 +42,22 @@ int main(void){
                 start = space + 1;
             }
         }
-        // for(int i = 0; i < strlen(string_buf[0]); ++i){
-        //     printf("%02x ", string_buf[0][i]);
-        // }
-        // printf("\n");
-        // for(int i = 0; i < strlen(string_buf[1]); ++i){
-        //     printf("%02x ", string_buf[1][i]);
-        // }
-        // printf("\n");
-        for(int i = 0; i < argsSE; ++i){
+        for(int i=0;i<argsSE;++i){
             args[i] = string_buf[i];
-            printf("i: %d, args[]: %02x\n", i, args[i]);
         }
+        pid_t pid;
+        pid = fork();
+        if(pid<0){
+            printf("fork error.\n");
+            return 1;
+        } else if(pid==0){//child process
+            execvp(args[0], args);
+            return 0;
+        } else {
+            wait(NULL);
+            should_run = 1;
+        }
+        //execvp(args[0], args);
         //args[argsSE] = "NULL";
         //execvp(args[0], args);
     }

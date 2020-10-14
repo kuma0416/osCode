@@ -8,6 +8,9 @@ int main(void){
     char *args[MAX_LINE/2+1];
     int should_run = 1;
     char string[80];
+    for(int i = 0; i < MAX_LINE/2+1 ; ++i){
+        args[i] = NULL;
+    }
     while(should_run){
         printf("osh>");
         fflush(stdout);
@@ -33,7 +36,10 @@ int main(void){
         }
         for(int i = 0; i < argsSE; ++i){
             args[i] = string_buf[i];
+            printf("i: %d, args[]: %02x\n", i, args[i]);
         }
+        //args[argsSE] = "NULL";
+        //execvp(args[0], args);
     }
     return 0;
 }
